@@ -1,4 +1,4 @@
-ApplicativeProgramming
+Applicative Programming
 ======================
 
 - Applicative functors 
