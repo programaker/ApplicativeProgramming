@@ -7,18 +7,18 @@ import util.Monoid
 // R = Result
 sealed trait Validation[F, S] {
   // functor - applies a function to an wrapped value and returns another wrapped value:
-  // >>> map(V => R, Wrapper[V]) = Wrapper[R]
+  // >>> map(V => R, Wrapped[V]) = Wrapped[R]
   // but in this case, object-oriented modeled, the wrapped value is the object itself:
-  // >>> Wrapper[V].map(V => R) = Wrapper[R]
+  // >>> Wrapped[V].map(V => R) = Wrapped[R]
   def map[R](function: S => R): Validation[F, R] = this match {
     case Success(s) => Success(function(s))
     case Failure(f) => Failure(f)
   }
 
   // applicative functor - applies an wrapped function to an wrapped value and returns another wrapped value:
-  // >>> apply(Wrapper[V => R], Wrapper[V]) = Wrapper[R]
+  // >>> apply(Wrapped[V => R], Wrapped[V]) = Wrapped[R]
   // but in this case, object-oriented modeled, the wrapped value is the object itself:
-  // >>> Wrapper[V].apply(Wrapper[V => R]) = Wrapper[R]
+  // >>> Wrapped[V].apply(Wrapped[V => R]) = Wrapped[R]
   def apply[R](validation: Validation[F, S => R])(implicit failureAccumulator: Monoid[F]): Validation[F, R] = {
     (this, validation) match {
       case (Failure(f1), Failure(f2)) => Failure(failureAccumulator.append(f1, f2))
