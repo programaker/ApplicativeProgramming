@@ -6,7 +6,7 @@ import util.Monoid
 // S = Success
 // R = Result
 sealed trait Validation[F, S] {
-  // functor - applies a function to an wrapped value and returns another wrapped value:
+  // functor - applies a function to an wrapped value and returns an wrapped result:
   // >>> map(V => R, Wrapped[V]) = Wrapped[R]
   // but in this case, object-oriented modeled, the wrapped value is the object itself:
   // >>> Wrapped[V].map(V => R) = Wrapped[R]
@@ -15,7 +15,7 @@ sealed trait Validation[F, S] {
     case Failure(f) => Failure(f)
   }
 
-  // applicative functor - applies an wrapped function to an wrapped value and returns another wrapped value:
+  // applicative functor - applies an wrapped function to an wrapped value and returns an wrapped result:
   // >>> apply(Wrapped[V => R], Wrapped[V]) = Wrapped[R]
   // but in this case, object-oriented modeled, the wrapped value is the object itself:
   // >>> Wrapped[V].apply(Wrapped[V => R]) = Wrapped[R]
