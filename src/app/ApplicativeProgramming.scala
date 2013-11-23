@@ -1,6 +1,6 @@
 package app
 
-import domain.{Failure, Success, Person}
+import domain.{Validation, Failure, Success, Person}
 
 // Applicative Programming, Disjoint Unions, Semigroups and Non-breaking Error Handling
 object ApplicativeProgramming {
@@ -16,10 +16,10 @@ object ApplicativeProgramming {
   }
 
   def run(nameParam: String, ageParam: String, postcodeParam: String) = {
-    val personConstructor = (Person(_, _, _)).curried
-    val name = Person.validName(nameParam)
-    val age = Person.validAge(ageParam)
-    val postcode = Person.validPostcode(postcodeParam)
+    val personConstructor: String => Int => String => Person = (Person(_, _, _)).curried
+    val name: Validation[List[String], String] = Person.validName(nameParam)
+    val age: Validation[List[String], Int] = Person.validAge(ageParam)
+    val postcode: Validation[List[String], String] = Person.validPostcode(postcodeParam)
 
     postcode.apply(age.apply(name.map(personConstructor))) match {
       case Success(newPerson) => println(s"created $newPerson")
