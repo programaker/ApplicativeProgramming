@@ -16,7 +16,7 @@ object ApplicativeProgramming {
   }
 
   def run(nameParam: String, ageParam: String, postcodeParam: String) = {
-    val personConstructor: String => Int => String => Person = (Person(_, _, _)).curried
+    val personConstructor: String => Int => String => Person = (Person(_,_,_)).curried
     val name: Validation[List[String], String] = Person.validName(nameParam)
     val age: Validation[List[String], Int] = Person.validAge(ageParam)
     val postcode: Validation[List[String], String] = Person.validPostcode(postcodeParam)

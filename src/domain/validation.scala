@@ -1,6 +1,6 @@
 package domain
 
-import util.Monoid
+import util.Semigroup
 
 // F = Failure
 // S = Success
@@ -19,7 +19,7 @@ sealed trait Validation[F, S] {
   // >>> apply(Wrapped[V => R], Wrapped[V]) = Wrapped[R]
   // but in this case, object-oriented modeled, the wrapped value is the object itself:
   // >>> Wrapped[V].apply(Wrapped[V => R]) = Wrapped[R]
-  def apply[R](validation: Validation[F, S => R])(implicit failureAccumulator: Monoid[F]): Validation[F, R] = {
+  def apply[R](validation: Validation[F, S => R])(implicit failureAccumulator: Semigroup[F]): Validation[F, R] = {
     (this, validation) match {
       case (Failure(f1), Failure(f2)) => Failure(failureAccumulator.append(f1, f2))
       case (Failure(f), Success(_)) => Failure(f)
